@@ -1,0 +1,74 @@
+# open mpv
+alt - t : open -na /Applications/kitty.app 
+alt - c : open -na /Applications/Chrome.app 
+alt - v : open -na /Applications/VScode.app 
+alt - f : open -na /Applications/Finder.app 
+
+
+# change focus
+alt - j : yabai -m window --focus west
+alt - k : yabai -m window --focus south
+alt - i : yabai -m window --focus north
+alt - l : yabai -m window --focus east
+
+# shift window in current workspace
+alt + shift - j : yabai -m window --swap west || $(yabai -m window --display west; yabai -m display --focus west)
+alt + shift - k : yabai -m window --swap south || $(yabai -m window --display south; yabai -m display --focus south)
+alt + shift - i : yabai -m window --swap north || $(yabai -m window --display north; yabai -m display --focus north)
+alt + shift - l : yabai -m window --swap east || $(yabai -m window --display east; yabai -m display --focus east)
+
+
+#move focused window to next/prev workspace
+alt + shift - 1 : yabai -m window --space 1
+alt + shift - 2 : yabai -m window --space 2
+alt + shift - 3 : yabai -m window --space 3
+alt + shift - 4 : yabai -m window --space 4
+alt + shift - 5 : yabai -m window --space 5
+alt + shift - 6 : yabai -m window --space 6
+alt + shift - 7 : yabai -m window --space 7
+alt + shift - 8 : yabai -m window --space 8
+alt + shift - 9 : yabai -m window --space 9
+
+
+
+# change layout of desktop
+alt - z : yabai -m space --layout bsp
+alt - x : yabai -m space --layout stack
+# alt - f : yabai -m space --layout float
+
+# equalize size of windows∏
+alt - q : yabai -m space --balance
+
+# Flip the tree horizontally
+#alt - m : yabai -m space --mirror x-axis
+
+# Flip the tree vertically
+#alt - n : yabai -m space --mirror y-axis
+
+# move focused window to occupy the left two thirds of the screen. <rows>:<cols>:<start-x>:<start-y>:<width>:<height>
+
+
+# toggle whether the focused window should be tiled (only on bsp spaces)
+alt - u : yabai -m window --toggle float \
+          yabai -m window --grid 100:100:20:20:60:60 
+
+
+# Focus previous space by mission-control index
+alt - o : yabai -m space --focus prev
+alt - p : yabai -m space --focus next
+
+
+
+# muove le finestre
+cmd + alt - o : yabai -m window --space prev; yabai -m space --focus prev    # To the space on the left
+cmd + alt - p : yabai -m window --space next; yabai -m space --focus next   # To the spave on the right
+
+#nuovo desktop
+alt - n : yabai -m space --create && sketchybar --trigger space_change
+alt - m : yabai -m space --destroy && sketchybar --trigger space_changem
+
+# create desktop, move window and follow focus - uses jq for parsing json (brew install jq)
+shift + alt - n : yabai -m space --create && \
+                  index="$(yabai -m query --spaces --display | jq 'map(select(."is-native-fullscreen" == false))[-1].index')" && \
+                  yabai -m window --space "${index}" && \
+                  yabai -m space --focus "${index}"
